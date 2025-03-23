@@ -5,21 +5,23 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^13.5.0",
+    "lodash-es": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.15.0",
     "react-window": "^1.8.11",
+    "reselect": "^5.1.1",
+    "use-debounce": "^10.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "test": "npm-run-all -p start playwright-test",
+    "playwright-test": "wait-on http://localhost:3000 && playwright test",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,5 +41,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.13.11",
+    "npm-run-all": "^4.1.5",
+    "wait-on": "^8.0.3"
   }
 }

@@ -1,41 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { userUpdated, selectUserById } from '../store/store'
-
-
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { userUpdated, selectUserById } from '../store/store';
 
 const UserEditor = React.memo(({ userId }) => {
-    const user = useSelector(state => selectUserById(state, userId))
-    const dispatch = useDispatch()
-    const [formData, setFormData] = useState({ ...user })
-    const [showNotification, setShowNotification] = useState(false)
+    const user = useSelector(state => selectUserById(state, userId));
+    const dispatch = useDispatch();
+    const [formData, setFormData] = useState(user);
+    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
-        setFormData({ ...user })
-    }, [user])
+        setFormData(user);
+    }, [user]);
 
     const handleChange = e => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
-        }))
-    }
+        }));
+    };
 
     const handleSubmit = e => {
-        e.preventDefault()
+        e.preventDefault();
         dispatch(userUpdated({
             id: userId,
             changes: formData
-        }))
-        setShowNotification(true)
-        setTimeout(() => setShowNotification(false), 2000)
-    }
+        }));
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 1500);
+    };
 
     return (
         <div className="editor-panel">
             {showNotification && (
-                <div className="save-notification">
+                <div className="save-notification" data-testid="save-notification">
                     Changes saved successfully!
                 </div>
             )}
@@ -50,7 +48,7 @@ const UserEditor = React.memo(({ userId }) => {
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleChange}
-                            placeholder="Enter first name"
+                            required
                         />
                     </label>
 
@@ -60,7 +58,7 @@ const UserEditor = React.memo(({ userId }) => {
                             name="lastName"
                             value={formData.lastName}
                             onChange={handleChange}
-                            placeholder="Enter last name"
+                            required
                         />
                     </label>
 
@@ -71,7 +69,8 @@ const UserEditor = React.memo(({ userId }) => {
                             name="age"
                             value={formData.age}
                             onChange={handleChange}
-                            placeholder="Enter age"
+                            min="18"
+                            max="100"
                         />
                     </label>
 
@@ -82,17 +81,17 @@ const UserEditor = React.memo(({ userId }) => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="Enter email"
+                            required
                         />
                     </label>
                 </div>
 
-                <button type="submit">
+                <button type="submit" data-testid="save-button">
                     Save Changes
                 </button>
             </form>
         </div>
     )
-})
+});
 
-export default UserEditor
+export default UserEditor;
