@@ -12,5 +12,6 @@ export function* generateUsers(total, chunkSize = 50000) {
             });
         }
         yield chunk;
+        console.log('Generated chunk:', chunk.length);
     }
 }

@@ -21,6 +21,7 @@ function App() {
 
     useEffect(() => {
         worker.onmessage = (event) => {
+            console.log('Received chunk:', event.data.length);
             dispatch(usersAdded(event.data));
             forceUpdate();
             setIsLoading(false);
@@ -28,6 +29,10 @@ function App() {
 
         worker.postMessage({ total: totalUsers, chunkSize });
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log('Total users:', ids.length);
+    }, [ids.length]);
 
     const handleScroll = useCallback(() => {
         if (listRef.current) {
@@ -40,7 +45,8 @@ function App() {
             }
 
             if (ids.length > totalUsers) {
-                const idsToRemove = ids.slice(0, ids.length - totalUsers);
+                const visibleUserCount = Math.ceil(clientHeight / 250);
+                const idsToRemove = ids.slice(0, ids.length - visibleUserCount);
                 dispatch(usersRemoved(idsToRemove));
             }
         }
@@ -69,7 +75,7 @@ function App() {
                     width={400}
                     itemSize={250}
                     itemCount={ids.length}
-                    overscanCount={20}
+                    overscanCount={150}
                     onScroll={handleScroll}
                 >
                     {Row}

@@ -7,5 +7,6 @@ self.onmessage = (event) => {
 
     for (let chunk of generator) {
         self.postMessage(chunk);
+        console.log('Sent chunk:', chunk.length);
     }
 };
